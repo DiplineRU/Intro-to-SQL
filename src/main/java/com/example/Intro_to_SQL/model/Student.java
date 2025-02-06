@@ -17,8 +17,7 @@ public class Student {
     private long id;
     private String surname;
     private String name;
-    private int strong;
-    private int transgress;
+    private int age;
 
     @Override
     public String toString() {
@@ -26,8 +25,7 @@ public class Student {
                 "id=" + id +
                 ", surname='" + surname + '\'' +
                 ", name='" + name + '\'' +
-                ", strong=" + strong +
-                ", transgress=" + transgress +
+                ", age=" + age +
                 '}';
     }
 
@@ -35,12 +33,12 @@ public class Student {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Student student)) return false;
-        return id == student.id && strong == student.strong && transgress == student.transgress && Objects.equals(surname, student.surname) && Objects.equals(name, student.name);
+        return id == student.id && age == student.age && Objects.equals(surname, student.surname) && Objects.equals(name, student.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, surname, name, strong, transgress);
+        return Objects.hash(id, surname, name, age);
     }
 
     public long getId() {
@@ -67,19 +65,11 @@ public class Student {
         this.name = name;
     }
 
-    public int getStrong() {
-        return strong;
+    public int getAge() {
+        return age;
     }
 
-    public void setStrong(int strong) {
-        this.strong = strong;
-    }
-
-    public int getTransgress() {
-        return transgress;
-    }
-
-    public void setTransgress(int transgress) {
-        this.transgress = transgress;
+    public void setAge(int age) {
+        this.age = age;
     }
 }
