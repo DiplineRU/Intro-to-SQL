@@ -2,6 +2,7 @@ package com.example.Intro_to_SQL.controller;
 
 
 import com.example.Intro_to_SQL.model.Faculty;
+import com.example.Intro_to_SQL.model.Student;
 import com.example.Intro_to_SQL.service.FacultService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +33,22 @@ public class FacultyController {
         return facultService.createFaculty(faculty);
     }
 
-    @GetMapping
+    @GetMapping //GET
     public ResponseEntity<Collection<Faculty>> getAllFaculty() {
         return ResponseEntity.ok(facultService.getAllFaculty());
+    }
+
+    @GetMapping("/searchNameOrColor")
+    public ResponseEntity<Collection<Faculty>> searchFaculties(@RequestParam(required = false) String name,
+                                                               @RequestParam(required = false) String color) {
+        if (name != null) {
+            return ResponseEntity.ok(facultService.findByNameIgnoreCase(name));
+        }
+        if (color != null) {
+            return ResponseEntity.ok(facultService.findByColorIgnoreCase(color));
+        }
+        return ResponseEntity.ok(null); // Возвращаем пустой список, если параметры не указаны
+
     }
 
     @PutMapping //PUT
@@ -51,6 +65,16 @@ public class FacultyController {
         facultService.deleteFaculty(id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("{id}/students")
+    public ResponseEntity<Collection<Student>> getFacultyStudents(@PathVariable Long id) {
+        Faculty faculty = facultService.findFaculty(id);
+        if (faculty == null || faculty.getStudents() == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(faculty.getStudents());
+    }
+
 }
 
 
