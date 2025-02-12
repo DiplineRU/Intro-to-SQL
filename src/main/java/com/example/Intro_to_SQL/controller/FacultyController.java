@@ -2,6 +2,7 @@ package com.example.Intro_to_SQL.controller;
 
 
 import com.example.Intro_to_SQL.model.Faculty;
+import com.example.Intro_to_SQL.model.Student;
 import com.example.Intro_to_SQL.service.FacultService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,6 +65,16 @@ public class FacultyController {
         facultService.deleteFaculty(id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("{id}/students")
+    public ResponseEntity<Collection<Student>> getFacultyStudents(@PathVariable Long id) {
+        Faculty faculty = facultService.findFaculty(id);
+        if (faculty == null || faculty.getStudents() == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(faculty.getStudents());
+    }
+
 }
 
 
