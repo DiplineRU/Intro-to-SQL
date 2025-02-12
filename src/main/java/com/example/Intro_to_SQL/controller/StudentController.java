@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
+
 @RestController
 @RequestMapping("Student")
 public class StudentController {
@@ -33,9 +34,18 @@ public class StudentController {
         return studentService.createStudent(student);
     }
 
-    @GetMapping
-    public ResponseEntity<Collection<Student>> getAllStudent() {
+    @GetMapping //GET
+    public ResponseEntity findStudent(@RequestParam(required = false) String name) {
+        if (name != null && !name.isBlank()) {
+            return ResponseEntity.ok(studentService.findByName(name));
+        }
         return ResponseEntity.ok(studentService.getAllStudent());
+    }
+
+    @GetMapping("/getStudentByAge") //GET
+    public ResponseEntity getStudentByAgeRange(@RequestParam int minAge,
+                                               @RequestParam int maxAge) {
+        return ResponseEntity.ok(studentService.findByAgeBetween(minAge, maxAge));
     }
 
     @PutMapping //PUT
